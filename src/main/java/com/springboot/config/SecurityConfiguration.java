@@ -15,7 +15,16 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // HttpSecurity를 통해 HTTP 요청에 대한 보안 설정 구성하기
-        
+        http
+                .csrf().disable()
+                .formLogin()
+                .loginPage("/auths/login-form")
+                .loginProcessingUrl("/process_login")
+                .failureUrl("/auths/login-form?error")
+                .and()
+                .authorizeHttpRequests()
+                .anyRequest()
+                .permitAll();
         return http.build();
     }
 
