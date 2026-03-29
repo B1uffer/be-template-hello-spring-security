@@ -22,9 +22,10 @@ public class SecurityConfiguration {
                 .loginProcessingUrl("/process_login")
                 .failureUrl("/auths/login-form?error")
                 .and()
-                .authorizeHttpRequests()
-                .anyRequest()
-                .permitAll();
+                .authorizeHttpRequests(authorize -> authorize
+                        .antMatchers("/orders/**").hasRole("ADMIN")
+                        .antMatchers("/members/my-page").hasRole("USER")
+                        .antMatchers("/**").permitAll());
         return http.build();
     }
 
